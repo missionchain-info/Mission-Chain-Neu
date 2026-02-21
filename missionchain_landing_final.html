@@ -61,40 +61,39 @@
   .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; opacity: 0.8; transition: opacity 0.2s, color 0.2s; }
   .nav-links a:hover { opacity: 1; color: var(--gold); }
   .nav-actions { display: flex; align-items: center; gap: 14px; }
-  .lang-switch {
+  .lang-dropdown-wrap {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px;
+    gap: 8px;
+    padding: 4px 8px;
     border: 1px solid var(--border);
     background: rgba(255,255,255,0.03);
     border-radius: 4px;
   }
-  .lang-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    border: 1px solid transparent;
-    background: transparent;
-    color: var(--cream);
-    padding: 6px 8px;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
+  .lang-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
     font-weight: 600;
-    cursor: pointer;
+    white-space: nowrap;
+  }
+  .lang-select {
+    border: 1px solid rgba(201,168,76,0.4);
+    background: rgba(13,8,18,0.95);
+    color: var(--cream);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    padding: 6px 8px;
     border-radius: 3px;
-    opacity: 0.8;
-    transition: all 0.2s;
+    outline: none;
+    cursor: pointer;
   }
-  .lang-btn:hover { opacity: 1; color: var(--gold); border-color: rgba(201,168,76,0.35); }
-  .lang-btn.active {
-    opacity: 1;
-    color: var(--gold);
-    border-color: rgba(201,168,76,0.6);
-    background: rgba(201,168,76,0.14);
+  .lang-select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(201,168,76,0.18);
   }
-  .lang-flag { font-size: 0.78rem; line-height: 1; }
-  .lang-code { line-height: 1; }
   .nav-cta { background: linear-gradient(135deg, var(--burgundy), #9B2335); color: white; border: none; padding: 10px 24px; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; text-decoration: none; }
   .nav-cta:hover { background: linear-gradient(135deg, #9B2335, var(--burgundy)); }
 
@@ -900,7 +899,7 @@
   /* RESPONSIVE */
   @media (max-width: 1200px) {
     .nav-links { gap: 20px; }
-    .lang-btn { padding: 6px; font-size: 0.62rem; }
+    .lang-select { padding: 6px 7px; font-size: 0.62rem; }
     .nav-cta { padding: 9px 16px; font-size: 0.68rem; }
   }
 
@@ -909,9 +908,9 @@
     .nav-links { display: none; }
     .nav-logo span { font-size: 0.78rem; letter-spacing: 0.1em; }
     .nav-actions { margin-left: auto; gap: 8px; }
-    .lang-switch { gap: 4px; padding: 3px; }
-    .lang-btn { gap: 4px; padding: 5px; font-size: 0.6rem; }
-    .lang-flag { font-size: 0.72rem; }
+    .lang-dropdown-wrap { gap: 6px; padding: 3px 6px; }
+    .lang-label { font-size: 0.56rem; }
+    .lang-select { padding: 5px 6px; font-size: 0.58rem; }
     .nav-cta { padding: 8px 12px; font-size: 0.62rem; }
     section { padding: 60px 20px; }
     .about-grid, .token-overview, .eco-cards, .rounds-grid, .gov-grid, .team-grid, .docs-grid { grid-template-columns: 1fr; }
@@ -926,8 +925,9 @@
   }
 
   @media (max-width: 640px) {
-    .lang-code { display: none; }
-    .lang-btn { min-width: 30px; justify-content: center; }
+    .lang-label { display: none; }
+    .lang-dropdown-wrap { padding: 3px; }
+    .lang-select { padding: 5px; min-width: 84px; }
     .nav-cta { display: none; }
   }
 
@@ -966,15 +966,16 @@
     <a href="#community">Community</a>
   </div>
   <div class="nav-actions">
-    <div class="lang-switch" aria-label="Language selector">
-      <button type="button" class="lang-btn active" data-lang="EN"><span class="lang-flag" aria-hidden="true">🇺🇸</span><span class="lang-code">EN</span></button>
-      <button type="button" class="lang-btn" data-lang="ES"><span class="lang-flag" aria-hidden="true">🇪🇸</span><span class="lang-code">ES</span></button>
-      <button type="button" class="lang-btn" data-lang="PT"><span class="lang-flag" aria-hidden="true">🇵🇹</span><span class="lang-code">PT</span></button>
-      <button type="button" class="lang-btn" data-lang="IT"><span class="lang-flag" aria-hidden="true">🇮🇹</span><span class="lang-code">IT</span></button>
-      <button type="button" class="lang-btn" data-lang="VI"><span class="lang-flag" aria-hidden="true">🇻🇳</span><span class="lang-code">VI</span></button>
-      <button type="button" class="lang-btn" data-lang="KR"><span class="lang-flag" aria-hidden="true">🇰🇷</span><span class="lang-code">KR</span></button>
+    <div class="lang-dropdown-wrap" aria-label="Language selector">
+      <select id="lang-select" class="lang-select">
+        <option value="EN">🇺🇸 EN</option>
+        <option value="ES">🇪🇸 ES</option>
+        <option value="PT">🇵🇹 PT</option>
+        <option value="IT">🇮🇹 IT</option>
+        <option value="VI">🇻🇳 VI</option>
+        <option value="KR">🇰🇷 KR</option>
+      </select>
     </div>
-    <a href="#rounds" class="nav-cta">Join Sale</a>
   </div>
 </nav>
 
@@ -1812,17 +1813,9 @@ window.addEventListener('scroll', () => {
   }
 });
 
-const langButtons = document.querySelectorAll('.lang-btn');
+const langSelect = document.querySelector('#lang-select');
 
-function setActiveLanguage(lang) {
-  langButtons.forEach(btn => {
-    const isActive = btn.dataset.lang === lang;
-    btn.classList.toggle('active', isActive);
-    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-  });
-}
-
-if (langButtons.length) {
+if (langSelect) {
   let initialLang = 'EN';
   try {
     const storedLang = localStorage.getItem('mc_lang');
@@ -1831,18 +1824,15 @@ if (langButtons.length) {
     // Ignore storage access errors in restricted contexts.
   }
 
-  setActiveLanguage(initialLang);
+  const hasInitialOption = Array.from(langSelect.options).some(opt => opt.value === initialLang);
+  langSelect.value = hasInitialOption ? initialLang : 'EN';
 
-  langButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const nextLang = btn.dataset.lang || 'EN';
-      setActiveLanguage(nextLang);
-      try {
-        localStorage.setItem('mc_lang', nextLang);
-      } catch (err) {
-        // Ignore storage write errors.
-      }
-    });
+  langSelect.addEventListener('change', () => {
+    try {
+      localStorage.setItem('mc_lang', langSelect.value || 'EN');
+    } catch (err) {
+      // Ignore storage write errors.
+    }
   });
 }
 
