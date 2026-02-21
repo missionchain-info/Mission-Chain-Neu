@@ -1717,17 +1717,17 @@
     <span class="section-label">Documentation</span>
     <h2 class="section-title" style="font-size: 1.8rem;">Official Documents</h2>
     <div class="docs-grid">
-      <a href="file:///Users/ledangtuan/Documents/New%20project/standardized/docx/02_MIC_WHITEPAPER_STANDARDIZED_EN.docx" class="doc-link">
+      <a href="standardized/i18n/EN/docx/02_MIC_WHITEPAPER_STANDARDIZED_EN.docx" class="doc-link" data-doc="whitepaper">
         <div class="doc-icon">📄</div>
         <div class="doc-name">White Paper</div>
         <div class="doc-desc">Full technical & economic documentation</div>
       </a>
-      <a href="file:///Users/ledangtuan/Documents/New%20project/standardized/docx/03_MIC_APPENDICES_STANDARDIZED_EN.docx" class="doc-link">
+      <a href="standardized/i18n/EN/docx/03_MIC_APPENDICES_STANDARDIZED_EN.docx" class="doc-link" data-doc="appendices">
         <div class="doc-icon">📋</div>
         <div class="doc-name">Appendices</div>
         <div class="doc-desc">Sale mechanics, fund allocation details</div>
       </a>
-      <a href="file:///Users/ledangtuan/Documents/New%20project/standardized/docx/01_MIC_TEAM_STANDARDIZED_EN.docx" class="doc-link">
+      <a href="standardized/i18n/EN/docx/01_MIC_TEAM_STANDARDIZED_EN.docx" class="doc-link" data-doc="team">
         <div class="doc-icon">👥</div>
         <div class="doc-name">Team Profile</div>
         <div class="doc-desc">Founding & leadership team bios</div>
@@ -1814,25 +1814,295 @@ window.addEventListener('scroll', () => {
 });
 
 const langSelect = document.querySelector('#lang-select');
+const mcLangMap = { EN: 'en', ES: 'es', PT: 'pt', IT: 'it', VI: 'vi', KR: 'ko' };
+const mcLangStorageKey = 'mc_lang';
+
+const mcDocLinks = {
+  whitepaper: document.querySelector('[data-doc="whitepaper"]'),
+  appendices: document.querySelector('[data-doc="appendices"]'),
+  team: document.querySelector('[data-doc="team"]')
+};
+
+const mcDocPathMap = {
+  EN: {
+    whitepaper: 'standardized/i18n/EN/docx/02_MIC_WHITEPAPER_STANDARDIZED_EN.docx',
+    appendices: 'standardized/i18n/EN/docx/03_MIC_APPENDICES_STANDARDIZED_EN.docx',
+    team: 'standardized/i18n/EN/docx/01_MIC_TEAM_STANDARDIZED_EN.docx'
+  },
+  ES: {
+    whitepaper: 'standardized/i18n/ES/docx/02_MIC_WHITEPAPER_STANDARDIZED_ES.docx',
+    appendices: 'standardized/i18n/ES/docx/03_MIC_APPENDICES_STANDARDIZED_ES.docx',
+    team: 'standardized/i18n/ES/docx/01_MIC_TEAM_STANDARDIZED_ES.docx'
+  },
+  PT: {
+    whitepaper: 'standardized/i18n/PT/docx/02_MIC_WHITEPAPER_STANDARDIZED_PT.docx',
+    appendices: 'standardized/i18n/PT/docx/03_MIC_APPENDICES_STANDARDIZED_PT.docx',
+    team: 'standardized/i18n/PT/docx/01_MIC_TEAM_STANDARDIZED_PT.docx'
+  },
+  IT: {
+    whitepaper: 'standardized/i18n/IT/docx/02_MIC_WHITEPAPER_STANDARDIZED_IT.docx',
+    appendices: 'standardized/i18n/IT/docx/03_MIC_APPENDICES_STANDARDIZED_IT.docx',
+    team: 'standardized/i18n/IT/docx/01_MIC_TEAM_STANDARDIZED_IT.docx'
+  },
+  VI: {
+    whitepaper: 'standardized/i18n/VI/docx/02_MIC_WHITEPAPER_STANDARDIZED_VI.docx',
+    appendices: 'standardized/i18n/VI/docx/03_MIC_APPENDICES_STANDARDIZED_VI.docx',
+    team: 'standardized/i18n/VI/docx/01_MIC_TEAM_STANDARDIZED_VI.docx'
+  },
+  KR: {
+    whitepaper: 'standardized/i18n/KR/docx/02_MIC_WHITEPAPER_STANDARDIZED_KR.docx',
+    appendices: 'standardized/i18n/KR/docx/03_MIC_APPENDICES_STANDARDIZED_KR.docx',
+    team: 'standardized/i18n/KR/docx/01_MIC_TEAM_STANDARDIZED_KR.docx'
+  }
+};
+
+const mcUiText = {
+  EN: {
+    title: 'Mission Chain — Inspired by Faith. Secured by Blockchain.',
+    nav: {
+      '#about': 'About',
+      '#ecosystem': 'Ecosystem',
+      '#tokenomics': 'Tokenomics',
+      '#nft': 'NFT',
+      '#governance': 'Governance',
+      '#roadmap': 'Roadmap',
+      '#team': 'Team',
+      '#documents': 'Documents',
+      '#community': 'Community'
+    },
+    tagline: '"Inspired by Faith. Secured by Blockchain."',
+    heroPrimary: 'Join the Mission',
+    heroSecondary: 'Read Whitepaper',
+    docsLabel: 'Documentation',
+    docsTitle: 'Official Documents',
+    docsWhitepaperName: 'White Paper',
+    docsWhitepaperDesc: 'Full technical & economic documentation',
+    docsAppendicesName: 'Appendices',
+    docsAppendicesDesc: 'Sale mechanics, fund allocation details',
+    docsTeamName: 'Team Profile',
+    docsTeamDesc: 'Founding & leadership team bios',
+    communityLabel: 'Join the Mission',
+    communityTitle: 'Connect with the Community',
+    communityDesc: 'The chain belongs to the people. The chain belongs to the mission. Join our global community of creators, builders, and believers.'
+  },
+  ES: {
+    title: 'Cadena de misiones: inspirada por la fe. Asegurado por Blockchain.',
+    nav: {
+      '#about': 'Acerca de',
+      '#ecosystem': 'Ecosistema',
+      '#tokenomics': 'Tokenómica',
+      '#nft': 'NFT',
+      '#governance': 'Gobernancia',
+      '#roadmap': 'Hoja de ruta',
+      '#team': 'Equipo',
+      '#documents': 'Documentos',
+      '#community': 'Comunidad'
+    },
+    tagline: '"Inspirado en la fe. Asegurado por Blockchain".',
+    heroPrimary: 'Únete a la misión',
+    heroSecondary: 'Leer el documento técnico',
+    docsLabel: 'Documentación',
+    docsTitle: 'Documentos Oficiales',
+    docsWhitepaperName: 'Libro Blanco',
+    docsWhitepaperDesc: 'Documentación técnica y económica completa',
+    docsAppendicesName: 'Apéndices',
+    docsAppendicesDesc: 'Mecánica de venta, detalles de asignación de fondos.',
+    docsTeamName: 'Perfil del equipo',
+    docsTeamDesc: 'Biografías del equipo fundador y de liderazgo',
+    communityLabel: 'Únete a la misión',
+    communityTitle: 'Conéctese con la comunidad',
+    communityDesc: 'La cadena es del pueblo. La cadena pertenece a la misión. Únase a nuestra comunidad global de creadores, constructores y creyentes.'
+  },
+  PT: {
+    title: 'Cadeia Missionária — Inspirada pela Fé. Protegido por Blockchain.',
+    nav: {
+      '#about': 'Sobre',
+      '#ecosystem': 'Ecossistema',
+      '#tokenomics': 'Tokenomia',
+      '#nft': 'NFT',
+      '#governance': 'Governança',
+      '#roadmap': 'Roteiro',
+      '#team': 'Equipe',
+      '#documents': 'Documentos',
+      '#community': 'Comunidade'
+    },
+    tagline: '"Inspirado pela fé. Garantido por Blockchain."',
+    heroPrimary: 'Junte-se à missão',
+    heroSecondary: 'Leia o artigo',
+    docsLabel: 'Documentação',
+    docsTitle: 'Documentos Oficiais',
+    docsWhitepaperName: 'Livro Branco',
+    docsWhitepaperDesc: 'Documentação técnica e econômica completa',
+    docsAppendicesName: 'Apêndices',
+    docsAppendicesDesc: 'Mecânica de venda, detalhes de alocação de fundos',
+    docsTeamName: 'Perfil da equipe',
+    docsTeamDesc: 'Biografias da equipe de fundação e liderança',
+    communityLabel: 'Junte-se à missão',
+    communityTitle: 'Conecte-se com a comunidade',
+    communityDesc: 'A corrente pertence ao povo. A corrente pertence à missão. Junte-se à nossa comunidade global de criadores, construtores e crentes.'
+  },
+  IT: {
+    title: 'Catena di missioni – Ispirata dalla fede. Protetto da Blockchain.',
+    nav: {
+      '#about': 'Di',
+      '#ecosystem': 'Ecosistema',
+      '#tokenomics': 'Tokenomics',
+      '#nft': 'NFT',
+      '#governance': 'Governo',
+      '#roadmap': 'Tabella di marcia',
+      '#team': 'Squadra',
+      '#documents': 'Documenti',
+      '#community': 'Comunità'
+    },
+    tagline: '"Ispirato dalla fede. Protetto da Blockchain."',
+    heroPrimary: 'Unisciti alla missione',
+    heroSecondary: 'Leggi il Libro bianco',
+    docsLabel: 'Documentazione',
+    docsTitle: 'Documenti ufficiali',
+    docsWhitepaperName: 'Libro bianco',
+    docsWhitepaperDesc: 'Documentazione tecnica ed economica completa',
+    docsAppendicesName: 'Appendici',
+    docsAppendicesDesc: "Meccanismi di vendita, dettagli sull'allocazione dei fondi",
+    docsTeamName: 'Profilo della squadra',
+    docsTeamDesc: 'Biografie del team fondatore e dirigente',
+    communityLabel: 'Unisciti alla missione',
+    communityTitle: 'Connettiti con la Comunità',
+    communityDesc: 'La catena appartiene al popolo. La catena appartiene alla missione. Unisciti alla nostra comunità globale di creatori, costruttori e credenti.'
+  },
+  VI: {
+    title: 'Chuỗi sứ mệnh - Lấy cảm hứng từ Niềm tin. Được bảo mật bởi Blockchain.',
+    nav: {
+      '#about': 'Về',
+      '#ecosystem': 'Hệ sinh thái',
+      '#tokenomics': 'Tokenomics',
+      '#nft': 'NFT',
+      '#governance': 'Quản trị',
+      '#roadmap': 'Lộ trình',
+      '#team': 'Đội',
+      '#documents': 'Tài liệu',
+      '#community': 'Cộng đồng'
+    },
+    tagline: '"Lấy cảm hứng từ niềm tin. Được bảo mật bởi Blockchain."',
+    heroPrimary: 'Tham gia sứ mệnh',
+    heroSecondary: 'Đọc báo cáo trắng',
+    docsLabel: 'Tài liệu',
+    docsTitle: 'Tài liệu chính thức',
+    docsWhitepaperName: 'Giấy trắng',
+    docsWhitepaperDesc: 'Tài liệu kinh tế kỹ thuật đầy đủ',
+    docsAppendicesName: 'Phụ lục',
+    docsAppendicesDesc: 'Cơ chế bán hàng, chi tiết phân bổ quỹ',
+    docsTeamName: 'Hồ sơ đội',
+    docsTeamDesc: 'Tiểu sử nhóm sáng lập và lãnh đạo',
+    communityLabel: 'Tham gia sứ mệnh',
+    communityTitle: 'Kết nối với cộng đồng',
+    communityDesc: 'Dây chuyền thuộc về nhân dân. Dây chuyền thuộc về sứ mệnh. Tham gia cộng đồng toàn cầu gồm những người sáng tạo, người xây dựng và tín đồ của chúng tôi.'
+  },
+  KR: {
+    title: '미션 체인 — 신앙에서 영감을 얻었습니다. 블록체인으로 보호됩니다.',
+    nav: {
+      '#about': '에 대한',
+      '#ecosystem': '생태계',
+      '#tokenomics': '토큰경제학',
+      '#nft': 'NFT',
+      '#governance': '통치',
+      '#roadmap': '로드맵',
+      '#team': '팀',
+      '#documents': '서류',
+      '#community': '지역 사회'
+    },
+    tagline: '"신앙에서 영감을 얻었습니다. 블록체인으로 보호됩니다."',
+    heroPrimary: '임무에 참여하세요',
+    heroSecondary: '백서 읽기',
+    docsLabel: '선적 서류 비치',
+    docsTitle: '공식 문서',
+    docsWhitepaperName: '백',
+    docsWhitepaperDesc: '전체 기술 및 경제 문서',
+    docsAppendicesName: '부록',
+    docsAppendicesDesc: '판매 메커니즘, 자금 할당 세부정보',
+    docsTeamName: '팀 프로필',
+    docsTeamDesc: '창립 및 리더십 팀 약력',
+    communityLabel: '임무에 참여하세요',
+    communityTitle: '커뮤니티와 연결',
+    communityDesc: '사슬은 사람들의 것입니다. 체인은 임무에 속합니다. 크리에이터, 빌더, 신자로 구성된 글로벌 커뮤니티에 참여하세요.'
+  }
+};
+
+function mcSetText(selector, value) {
+  const el = document.querySelector(selector);
+  if (!el || typeof value !== 'string') return;
+  el.textContent = value;
+}
+
+function mcApplyDocumentLinks(langCode) {
+  const normalized = (langCode || 'EN').toUpperCase();
+  const docSet = mcDocPathMap[normalized] || mcDocPathMap.EN;
+  if (!docSet) return;
+
+  if (mcDocLinks.whitepaper) mcDocLinks.whitepaper.setAttribute('href', docSet.whitepaper);
+  if (mcDocLinks.appendices) mcDocLinks.appendices.setAttribute('href', docSet.appendices);
+  if (mcDocLinks.team) mcDocLinks.team.setAttribute('href', docSet.team);
+}
+
+function mcApplyUiText(langCode) {
+  const normalized = (langCode || 'EN').toUpperCase();
+  const ui = mcUiText[normalized] || mcUiText.EN;
+
+  document.title = ui.title;
+  document.documentElement.lang = mcLangMap[normalized] || 'en';
+
+  Object.entries(ui.nav).forEach(function(entry) {
+    const href = entry[0];
+    const label = entry[1];
+    mcSetText('nav a[href="' + href + '"]', label);
+  });
+
+  mcSetText('.hero-tagline', ui.tagline);
+  mcSetText('.hero-buttons .btn-primary', ui.heroPrimary);
+  mcSetText('.hero-buttons .btn-secondary', ui.heroSecondary);
+
+  mcSetText('#documents .section-label', ui.docsLabel);
+  mcSetText('#documents .section-title', ui.docsTitle);
+  mcSetText('#documents .docs-grid .doc-link[data-doc="whitepaper"] .doc-name', ui.docsWhitepaperName);
+  mcSetText('#documents .docs-grid .doc-link[data-doc="whitepaper"] .doc-desc', ui.docsWhitepaperDesc);
+  mcSetText('#documents .docs-grid .doc-link[data-doc="appendices"] .doc-name', ui.docsAppendicesName);
+  mcSetText('#documents .docs-grid .doc-link[data-doc="appendices"] .doc-desc', ui.docsAppendicesDesc);
+  mcSetText('#documents .docs-grid .doc-link[data-doc="team"] .doc-name', ui.docsTeamName);
+  mcSetText('#documents .docs-grid .doc-link[data-doc="team"] .doc-desc', ui.docsTeamDesc);
+
+  mcSetText('#community .section-label', ui.communityLabel);
+  mcSetText('#community .section-title', ui.communityTitle);
+  mcSetText('#community p', ui.communityDesc);
+}
+
+function mcApplyLanguage(langCode) {
+  const normalized = (langCode || 'EN').toUpperCase();
+  mcApplyDocumentLinks(normalized);
+  mcApplyUiText(normalized);
+}
 
 if (langSelect) {
   let initialLang = 'EN';
   try {
-    const storedLang = localStorage.getItem('mc_lang');
-    if (storedLang) initialLang = storedLang;
+    const storedLang = localStorage.getItem(mcLangStorageKey);
+    if (storedLang) initialLang = storedLang.toUpperCase();
   } catch (err) {
-    // Ignore storage access errors in restricted contexts.
+    // Ignore storage access errors.
   }
 
-  const hasInitialOption = Array.from(langSelect.options).some(opt => opt.value === initialLang);
-  langSelect.value = hasInitialOption ? initialLang : 'EN';
+  const hasInitialOption = Array.from(langSelect.options).some((opt) => opt.value === initialLang);
+  const safeInitial = hasInitialOption ? initialLang : 'EN';
+
+  langSelect.value = safeInitial;
+  mcApplyLanguage(safeInitial);
 
   langSelect.addEventListener('change', () => {
+    const selected = (langSelect.value || 'EN').toUpperCase();
     try {
-      localStorage.setItem('mc_lang', langSelect.value || 'EN');
+      localStorage.setItem(mcLangStorageKey, selected);
     } catch (err) {
       // Ignore storage write errors.
     }
+    mcApplyLanguage(selected);
   });
 }
 
